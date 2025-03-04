@@ -1,0 +1,10 @@
+app: demo-pipelines
+namespace: demo-pipelines-images
+
+download_file_from_s3:
+  image: registry.access.redhat.com/ubi9/python-311@sha256:881c23ee1508391d894f1688dbe51ec0ea193df0151a5c9a91c21c439d31152
+  packages: boto==1.37.5
+
+upload_file_to_s3:
+  image: registry.access.redhat.com/ubi9/python-311@sha256:881c23ee1508391d894f1688dbe51ec0ea193df0151a5c9a91c21c439d31152
+  packages: boto==1.37.5

@@ -1,0 +1,29 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: download-file-from-s3
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.app }}
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: download-file-from-s3
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.app }}
+spec:
+  strategy:
+    type: Docker
+  source:
+    type: Dockerfile
+    dockerfile: |-
+      WORKDIR /app
+
+      RUN pip install --upgrade --no-cache-dir pip && \
+          pip install --upgrade --no-cache-dir {{ .Values.download-file-from-s3.packages }}
+    output:
+      to:
+        kind: ImageStreamTag
+        name: download-file-from-s3:latest
