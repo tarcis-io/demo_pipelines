@@ -19,6 +19,7 @@ spec:
   source:
     type: Dockerfile
     dockerfile: |-
+      FROM {{ .Values.download-file-from-s3.image }}
       WORKDIR /app
 
       RUN pip install --upgrade --no-cache-dir pip && \
