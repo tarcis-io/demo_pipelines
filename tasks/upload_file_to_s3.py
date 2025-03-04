@@ -1,4 +1,4 @@
-def download_file_from_s3(
+def upload_file_to_s3(
     s3_endpoint_url      : str,
     s3_access_key_id     : str,
     s3_secret_access_key : str,
@@ -8,26 +8,22 @@ def download_file_from_s3(
     local_filename       : str
 ):
     """
-    Downloads a file from an S3-compatible object storage service.
+    Uploads a local file to an S3-compatible object storage service.
 
     Parameters:
         - s3_endpoint_url      (str) : The endpoint URL of the S3 service.
         - s3_access_key_id     (str) : The access key ID for authentication.
         - s3_secret_access_key (str) : The secret access key for authentication.
         - s3_region_name       (str) : The region name of the S3 service.
-        - s3_bucket            (str) : The name of the S3 bucket where the file is located.
-        - s3_filename          (str) : The name of the file to be downloaded.
-        - local_filename       (str) : The local name of the file to save the downloaded file as.
+        - s3_bucket            (str) : The name of the S3 bucket where the file will be saved.
+        - s3_filename          (str) : The name of the file to save the uploaded file as.
+        - local_filename       (str) : The local name of the file to be uploaded.
 
     Returns:
         - None.
     """
 
-    from boto3   import client
-    from os      import makedirs
-    from os.path import dirname
-
-    makedirs(dirname(local_filename), exists_ok = True)
+    from boto3 import client
 
     s3_client = client(
         service_name          = 's3',
@@ -37,7 +33,7 @@ def download_file_from_s3(
         region_name           = s3_region_name
     )
 
-    s3_client.download_file(s3_bucket, s3_filename, local_filename)
+    s3_client.upload_file(local_filename, s3_bucket, s3_filename)
 
 
 if __name__ == '__main__':
@@ -47,7 +43,7 @@ if __name__ == '__main__':
 
     from os import getenv
 
-    download_file_from_s3(
+    upload_file_to_s3(
         s3_endpoint_url      = getenv('s3_endpoint_url'),
         s3_access_key_id     = getenv('s3_access_key_id'),
         s3_secret_access_key = getenv('s3_secret_access_key'),
