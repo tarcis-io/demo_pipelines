@@ -34,3 +34,21 @@ def download_file_from_s3(
     )
 
     s3_client.download_file(s3_bucket, s3_filename, local_filename)
+
+
+if __name__ == '__main__':
+    """
+    Elyra Pipelines
+    """
+
+    from os import getenv
+
+    download_file_from_s3(
+        s3_endpoint_url      = getenv('s3_endpoint_url'),
+        s3_access_key_id     = getenv('s3_access_key_id'),
+        s3_secret_access_key = getenv('s3_secret_access_key'),
+        s3_region_name       = getenv('s3_region_name'),
+        s3_bucket            = getenv('s3_bucket'),
+        s3_filename          = getenv('s3_filename'),
+        local_filename       = getenv('local_filename')
+    )
